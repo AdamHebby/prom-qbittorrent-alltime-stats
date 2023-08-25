@@ -1,0 +1,50 @@
+# Usage
+
+## Docker Run
+
+```bash
+docker run --rm -v /path/to/qbittorrent/config:/app -p 9200:9200 adamhebden/prom-qbittorrent-alltime-stats:latest
+```
+
+### Change the PORT
+
+```bash
+docker run --rm -v /path/to/qbittorrent/config:/config -e PORT=9177 -p 9177:9177 adamhebden/prom-qbittorrent-alltime-stats:latest
+```
+
+## Docker Compose
+```yaml
+  # QBittorrent All Time Exporter
+  qbittorrent-alltime-exporter:
+    image: adamhebden/prom-qbittorrent-alltime-stats:latest
+    container_name: qbittorrent-alltime-exporter
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    volumes:
+      - /path/to/qbittorrent/config:/config
+```
+
+For the volume, all that matters is qBittorrent-data.conf is in the root of the volume.
+
+## Prometheus Setup
+
+```yaml
+  - job_name: 'qbittorrent-alltime-exporter'
+    static_configs:
+      - targets: ['qbittorrent-alltime-exporter:9200']
+```
+
+## Example Metrics
+
+```text
+# HELP qbittorrent_dl_info_all_time_data_total All Time Total Data Downloaded
+# TYPE qbittorrent_dl_info_all_time_data_total counter
+qbittorrent_dl_info_all_time_data_total 8.06438490048e+011
+# HELP qbittorrent_up_info_all_time_data_total All Time Total Data Uploaded
+# TYPE qbittorrent_up_info_all_time_data_total counter
+qbittorrent_up_info_all_time_data_total 1.276814893325e+012
+# HELP qbittorrent_info_all_time_share_ratio_total All Time Share Ratio
+# TYPE qbittorrent_info_all_time_share_ratio_total counter
+qbittorrent_info_all_time_share_ratio_total 1.58327623
+```

@@ -1,0 +1,14 @@
+FROM python:3.11-alpine AS app
+
+ENV PIP_NO_CACHE_DIR=1
+
+RUN apk add --no-cache make automake gcc g++ subversion python3-dev gfortran openblas-dev qt5-qtbase-dev
+
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install prometheus_client
+RUN python3 -m pip install pyqt5
+
+RUN mkdir /app
+COPY main.py /app/main.py
+
+CMD python3 /app/main.py
