@@ -29,7 +29,7 @@ class QBittorrentAllTimeStats(object):
         yield info_all_time_share_ratio
 
 if __name__ == "__main__":
-    start_http_server(os.environ.get('PORT', 9200))
+    start_http_server(int(os.environ.get('PORT', 9200)))
     REGISTRY.register(QBittorrentAllTimeStats())
     while True:
         # period between collection

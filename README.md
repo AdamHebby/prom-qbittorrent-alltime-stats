@@ -16,7 +16,7 @@ docker run --rm -v /path/to/qbittorrent/config:/config -e PORT=9177 -p 9177:9177
 ```yaml
   # QBittorrent All Time Exporter
   qbittorrent-alltime-exporter:
-    image: adamhebden/prom-qbittorrent-alltime-stats:latest
+    image: adamhebden/prom-qbittorrent-alltime-stats:alpine-latest
     container_name: qbittorrent-alltime-exporter
     security_opt:
       - no-new-privileges:true
@@ -26,6 +26,12 @@ docker run --rm -v /path/to/qbittorrent/config:/config -e PORT=9177 -p 9177:9177
 ```
 
 For the volume, all that matters is qBittorrent-data.conf is in the root of the volume.
+
+## Images
+ - arm64v8: adamhebden/prom-qbittorrent-alltime-stats:alpine-latest
+  - or: adamhebden/prom-qbittorrent-alltime-stats:alpine-v1.0.0
+ - amd64: adamhebden/prom-qbittorrent-alltime-stats:latest
+  - or: adamhebden/prom-qbittorrent-alltime-stats:v1.0.0
 
 ## Prometheus Setup
 
