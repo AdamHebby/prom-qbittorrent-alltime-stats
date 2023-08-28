@@ -1,6 +1,6 @@
 # Usage
 
-This image is similar to [https://github.com/esanchezm/prometheus-qbittorrent-exporter](esanchezm/prometheus-qbittorrent-exporter) except this decodes the data from qBittorrent's config file and exports the all time data. The previously mentioned exporter only exports the current session data as these stats are not available via the API.
+This image is similar to [esanchezm/prometheus-qbittorrent-exporter](https://github.com/esanchezm/prometheus-qbittorrent-exporter) except this decodes the data from qBittorrent's config file and exports the all time data. The previously mentioned exporter only exports the current session data as these stats are not available via the API.
 
 This "all time data" is the total data downloaded, total data uploaded, and the share ratio.
 
@@ -12,16 +12,29 @@ qbittorrent_up_info_all_time_data_total
 qbittorrent_info_all_time_share_ratio_total
 ```
 
+I would (and do) use this in conjunction with [esanchezm/prometheus-qbittorrent-exporter](https://github.com/esanchezm/prometheus-qbittorrent-exporter). Import the dashboard.json file into Grafana and you'll have a nice dashboard. I've switched out the "current session" data for the "all time" data on my dashboard.
+
+![](./dashboard.png)
+
 ## Docker Run
 
 ```bash
-docker run --rm -v /path/to/qbittorrent/config:/app -p 9200:9200 adamhebden/prom-qbittorrent-alltime-stats:latest
+docker run \
+  -v /path/to/qbittorrent/config:/app \
+  -p 9200:9200 \
+  adamhebden/prom-qbittorrent-alltime-stats:alpine-latest
 ```
 
 ### Change the PORT
 
+The default port is 9200, but you can change it by setting the PORT environment variable. Don't forget to expose the port.
+
 ```bash
-docker run --rm -v /path/to/qbittorrent/config:/config -e PORT=9177 -p 9177:9177 adamhebden/prom-qbittorrent-alltime-stats:latest
+docker run \
+  -v /path/to/qbittorrent/config:/config \
+  -e PORT=9177 \
+  -p 9177:9177 \
+  adamhebden/prom-qbittorrent-alltime-stats:alpine-latest
 ```
 
 ## Docker Compose
@@ -40,10 +53,12 @@ docker run --rm -v /path/to/qbittorrent/config:/config -e PORT=9177 -p 9177:9177
 For the volume, all that matters is qBittorrent-data.conf is in the root of the volume.
 
 ## Images
- - arm64v8: adamhebden/prom-qbittorrent-alltime-stats:alpine-latest
-  - or: adamhebden/prom-qbittorrent-alltime-stats:alpine-v1.0.0
- - amd64: adamhebden/prom-qbittorrent-alltime-stats:latest
-  - or: adamhebden/prom-qbittorrent-alltime-stats:v1.0.0
+https://hub.docker.com/r/adamhebden/prom-qbittorrent-alltime-stats/tags
+
+ - arm64v8: `adamhebden/prom-qbittorrent-alltime-stats:alpine-latest`
+    - or: `adamhebden/prom-qbittorrent-alltime-stats:alpine-v1.0.0`
+ - amd64: `adamhebden/prom-qbittorrent-alltime-stats:latest`
+    - or: `adamhebden/prom-qbittorrent-alltime-stats:v1.0.0`
 
 ## Prometheus Setup
 
