@@ -1,5 +1,17 @@
 # Usage
 
+This image is similar to [https://github.com/esanchezm/prometheus-qbittorrent-exporter](esanchezm/prometheus-qbittorrent-exporter) except this decodes the data from qBittorrent's config file and exports the all time data. The previously mentioned exporter only exports the current session data as these stats are not available via the API.
+
+This "all time data" is the total data downloaded, total data uploaded, and the share ratio.
+
+Once this is setup, expect the following metrics to be available:
+
+```text
+qbittorrent_dl_info_all_time_data_total
+qbittorrent_up_info_all_time_data_total
+qbittorrent_info_all_time_share_ratio_total
+```
+
 ## Docker Run
 
 ```bash
